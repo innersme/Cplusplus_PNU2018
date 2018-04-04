@@ -25,6 +25,8 @@
 /* Begin PBXFileReference section */
 		89DE736A2074A2CA00F494BC /* Cplusplus_PNU2018 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cplusplus_PNU2018; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DE736D2074A2CA00F494BC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		89DE73742074A52400F494BC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		89DE73752074A58900F494BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,8 @@
 		89DE73612074A2CA00F494BC = {
 			isa = PBXGroup;
 			children = (
+				89DE73752074A58900F494BC /* README.md */,
+				89DE73742074A52400F494BC /* .gitignore */,
 				89DE736C2074A2CA00F494BC /* Cplusplus_PNU2018 */,
 				89DE736B2074A2CA00F494BC /* Products */,
 			);
