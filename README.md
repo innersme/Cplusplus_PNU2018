@@ -1,11 +1,11 @@
 # Cplusplus_PNU2018
 ### 2018SpringLecture
 [Assignment1](#assign1)
-[Assignment2](#assign2)
-[Assignment3](#assign3)
-[Assignment4](#assign4)
-[Assignment5](#assign5)
-[Assignment6](#assign6)
+[2](#assign2)
+[3](#assign3)
+[4](#assign4)
+[5](#assign5)
+[6](#assign6)
 
 ---
 
@@ -21,6 +21,7 @@
 
 
 ## <a name="assign6"></a> Assignment #6 – [a sample program in C++](http://lik.pusan.ac.kr/CPP/2018/Assignment-6.html)
+[blog](http://blog.inners.me/programming/cc/cassignment6/)
 
 ---
 
