@@ -34,7 +34,7 @@ Point::Point(const Point & rhs)
     cout << "I hate him\n";
 }
 
-Point  Point::operator+(Point op)
+Point Point::operator+(Point op)
 {
     Point temp;
     temp.x = x + op.x;
