@@ -87,7 +87,7 @@ int main()
 {
     nMatrix a(3,2);
     nMatrix b(3,4);
-    cout << a+b;
+    cout << addnMatrix(a, b);
     return 0;
 }
 
