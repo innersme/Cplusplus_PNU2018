@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/c++,xcode,macos
+# Created by https://www.gitignore.io/api/c++,xcode,macos,synology
 
 ### C++ ###
 # Prerequisites
@@ -62,6 +62,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Synology ###
+# Thumbnails
+@eaDir
+# Recycle bin
+\#recycle
+
 ### Xcode ###
 # Xcode
 #
@@ -95,4 +101,4 @@ xcuserdata/
 /*.gcno
 
 
-# End of https://www.gitignore.io/api/c++,xcode,macos
+# End of https://www.gitignore.io/api/c++,xcode,macos,synology
