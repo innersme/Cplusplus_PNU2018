@@ -1,8 +1,8 @@
 //
-//  class_Assign7.cpp
+//  lab7.cpp
 //  Cplusplus_PNU2018
 //
-//  Created by MJMacBook on 10/04/2018.
+//  Created by MJMacBook on 12/04/2018.
 //  Copyright © 2018 MJMacBook. All rights reserved.
 //
 
@@ -10,17 +10,19 @@
 using namespace std;
 
 
-
 class nMatrix {
     int **values;
     int size; //size of matrix
 public:
+    static int count;
     nMatrix(int n, int x); // construct nMatrix of size n and initialize it as x;
     ~nMatrix(); // destructor;
     nMatrix(const nMatrix& a); // copy constructor
     friend ostream& operator<<(ostream&, const nMatrix&);
     nMatrix operator+(nMatrix);
-    const
+    static int getTotalCount(void){
+        return count;
+    }
     // nMatrix addnMatrix(nMatrix a, nMatrix b);
 };
 
@@ -41,6 +43,7 @@ nMatrix::nMatrix(int n, int x)
             values[i][j] = x;
         }
     }
+    count++;
 }
 
 nMatrix::~nMatrix()
@@ -49,6 +52,7 @@ nMatrix::~nMatrix()
         delete[] values[i];
     }
     delete[] values;
+    count--;
 }
 
 nMatrix::nMatrix(const nMatrix& a)
@@ -84,8 +88,8 @@ nMatrix nMatrix::operator+(nMatrix op)
     return tmp;
 }
 
+int nMatrix::count = 0;
 nMatrix addnMatrix(nMatrix a, nMatrix b);
-
 int main()
 {
     nMatrix a(5, 3);
@@ -93,11 +97,10 @@ int main()
     nMatrix b(5, 1);
     nMatrix c(3, 5);
     cout << nMatrix::getTotalCount() << endl; // print 3
-    cout << a;
-    cout << b;
-    cout << addnMatrix(a, b);
-    cout << c;
-    
+    //cout << a;
+    //cout << b;
+    //cout << addnMatrix(a, b);
+    //cout << c;
 }
 
 nMatrix addnMatrix(nMatrix a, nMatrix b)
