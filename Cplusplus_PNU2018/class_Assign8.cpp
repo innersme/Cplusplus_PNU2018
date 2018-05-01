@@ -15,6 +15,7 @@ class USD {
     
 public:
     friend USD operator+(const USD&, const USD&);
+    friend USD operator-(const USD&, const USD&);
     friend ostream& operator<<(ostream&, const USD&);
     USD& operator=(const Euro&);
     USD(const USD &);
@@ -36,6 +37,7 @@ class Euro {
     
 public:
     friend Euro operator+(const Euro&, const Euro&);
+    friend Euro operator-(const Euro&, const Euro&);
     friend ostream& operator<<(ostream&, const Euro&);
     Euro& operator=(const USD&);
     Euro(const Euro &);
@@ -52,30 +54,7 @@ public:
     friend class USD;
 };
 
-Euro& Euro::operator=(const USD& pUSD){
-    cout << "operator Euro = USD" << endl;
-    float money = (pUSD.getDollars()) * (float)81.0 / (float)100.0;
-    this->euros = (int)money;
-    this->cents = pUSD.getCents() * (float)81.0 / (float)100.0 + (money - this->cents) * 100;
-    while (this->cents >= 100.0){
-        this->cents -= 100.0;
-        this->euros += 1;
-    }
-    return *this;
-}
 
-USD& USD::operator=(const Euro& pEuro){
-    cout << "operator USD = Euro" << endl;
-    float money = (pEuro.getEuros()) * (float)100.0 / (float)81.0;
-    this->dollars = (int)money ;
-    this->cents = pEuro.getCents() * (float)100.0 / (float)81.0 + (money - this->dollars) * 100;
-    while (this->cents >= 100.0){
-        this->cents -= 100.0;
-        this->dollars += 1;
-    }
-    return *this;
-
-}
 
 /* main함수 */
 int main(){
@@ -85,6 +64,12 @@ int main(){
     myMoneyEuro = USD(100,30.0) + Euro(300,20.0);
     cout << myMoneyUSD;
     cout << myMoneyEuro;
+    USD myMoneyUSDM;
+    Euro myMoneyEuroM;
+    myMoneyUSDM = Euro(10, 20.0) - USD(5, 10.0);
+    myMoneyEuroM = USD(5, 10.0) - Euro(200, 0); // myMoneyEuro will be 0.
+    cout << myMoneyUSDM;
+    cout << myMoneyEuroM;
 }
 
 /* 복사 생성자*/
@@ -147,7 +132,28 @@ Euro operator+(const Euro& a, const Euro& b) {
     // complete here. See lecture slides
     return temp;
 }
-
+// myMoneyUSD = Euro(10, 20.0) - USD(5, 10.0);
+Euro operator-(const Euro& a, const Euro& b){
+    cout << "Euro operator-" << endl;
+    Euro temp;
+    temp.euros = a.euros - b.euros;
+    if (temp.euros < 0) {
+        temp.euros = 0;
+        temp.cents = 0;
+        return temp;
+    }
+    temp.cents = a.cents - b.cents;
+    if(temp.cents >= 100){
+        temp.cents = temp.cents - 100;
+        temp.euros = temp.euros + 1;
+    }
+    if( temp.cents < 0 && temp.euros > 0){
+        temp.euros = temp.euros - 1;
+        temp.cents = temp.cents + 100;
+    }
+    // complete here. See lecture slides
+    return temp;
+}
 
 USD operator+(const USD& a, const USD& b) {
     cout << "USD operator+" << endl;
@@ -162,3 +168,48 @@ USD operator+(const USD& a, const USD& b) {
     return temp;
 }
 
+USD operator-(const USD& a, const USD& b) {
+    cout << "USD operator-" << endl;
+    USD temp;
+    temp.dollars = a.dollars - b.dollars;
+    if (temp.dollars < 0) {
+        temp.dollars = 0;
+        temp.cents = 0;
+        return temp;
+    }
+    temp.cents = a.cents - b.cents;
+    if(temp.cents >= 100){
+        temp.cents = temp.cents - 100;
+        temp.dollars = temp.dollars + 1;
+    }
+    if( temp.cents < 0 && temp.dollars > 0){
+        temp.dollars = temp.dollars - 1;
+        temp.cents = temp.cents + 100;
+    }
+    // complete here. See lecture slides
+    return temp;
+}
+
+Euro& Euro::operator=(const USD& pUSD){
+    cout << "operator Euro = USD" << endl;
+    float money = (pUSD.getDollars()) * (float)81.0 / (float)100.0;
+    this->euros = (int)money;
+    this->cents = pUSD.getCents() * (float)81.0 / (float)100.0 + (money - this->cents) * 100;
+    while (this->cents >= 100.0){
+        this->cents -= 100.0;
+        this->euros += 1;
+    }
+    return *this;
+}
+
+USD& USD::operator=(const Euro& pEuro){
+    cout << "operator USD = Euro" << endl;
+    float money = (pEuro.getEuros()) * (float)100.0 / (float)81.0;
+    this->dollars = (int)money ;
+    this->cents = pEuro.getCents() * (float)100.0 / (float)81.0 + (money - this->dollars) * 100;
+    while (this->cents >= 100.0){
+        this->cents -= 100.0;
+        this->dollars += 1;
+    }
+    return *this;
+}
