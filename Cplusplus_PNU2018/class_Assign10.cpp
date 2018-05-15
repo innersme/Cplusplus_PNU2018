@@ -18,6 +18,10 @@ class Student{
     float           score;
     
 public:
+    void getName(char *_name){ strcpy(name, _name); }
+    void getAge(unsigned int _age) { age = _age; }
+    void getDept(char *_dept) {strcpy(dept, _dept); }
+    void getScore(float _score) { score = _score; }
 };
 
 int readFromTextFile(char* fileName, Student **students);
@@ -37,16 +41,22 @@ int main()
 int readFromTextFile(char* fileName, Student **students)
 {
     int ret = 0;
+    Student *retStu;
     string line;
     ifstream myfile(fileName, ios::in);
     if (myfile.is_open()) {
         if (ret) {
-            *students = new Student[ret];
-            for (int i = 0 ; i < ret; i++) {
-                
-            }
+            retStu = new Student[ret];
+            int cnt = 0;
             while (myfile.good()) {
-                 getline(myfile, line);
+                getline(myfile, line);
+                string tmpname = line.substr(0,20);
+                string tmpdept = line.substr(23,20);
+                retStu[cnt].getName(tmpname);
+                retStu[cnt].getAge(stoi(line.substr(20,3)));
+                retStu[cnt].getDept(tmpdept);
+                retStu[cnt].getScore(stoi(line.substr(43,4)));
+                cnt++;
             }
         }
         else{
