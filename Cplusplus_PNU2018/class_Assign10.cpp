@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 class Student{
@@ -16,13 +17,66 @@ class Student{
     unsigned int    age;
     char            dept[20];
     float           score;
-    
 public:
-    void getName(char *_name){ strcpy(name, _name); }
-    void getAge(unsigned int _age) { age = _age; }
-    void getDept(char *_dept) {strcpy(dept, _dept); }
-    void getScore(float _score) { score = _score; }
+    Student();
+    Student(char _name[20], unsigned int, char _dept[20], float);
+    Student(const Student&);
+    char* getName(){return name;}
+    unsigned int getAge() { return age; }
+    char* getDept() { return dept; }
+    float getScore() { return score; }
+    void setName(string _name){
+        const char *tmp = _name.c_str();
+        for (int i = 0 ; i < 20 ; i++) {
+            name[i] = tmp[i];
+        }
+    }
+    void setAge(unsigned int _age) { age = _age; }
+    void setDept(string _dept) {
+        const char *tmp = _dept.c_str();
+        for (int i = 0 ; i < 20 ; i++) {
+            dept[i] = tmp[i];
+        }
+    }
+    void setScore(float _score) { score = _score; }
+    friend ostream& operator <<(ostream&, const Student&);
 };
+Student::Student()
+{
+    strcpy(name, "");
+    age = 0;
+    strcpy(dept, "");
+    score = 0;
+}
+
+Student::Student(char _name[20], unsigned int _age, char _dept[20], float _score){
+    strcpy (name , _name);
+    age = _age;
+    strcpy (dept , _dept);
+    score = _score;
+    // cout << "Constructor2" << endl;
+}
+
+Student::Student(const Student& a)
+{
+    strcpy(name, a.name);
+    age = a.age;
+    strcpy(dept, a.dept);
+    score = a.score;
+}
+
+ostream& operator<<(ostream& os, const Student& stud)
+{
+    for(int i = 0; i <20; i++){
+        os << *(stud.name + i);
+    }
+    os << stud.age;
+    for(int i = 0; i <20; i++){
+        os << *(stud.dept + i);
+    }
+    os << stud.score;
+    return os;
+}
 
 int readFromTextFile(char* fileName, Student **students);
 void writeToBinaryFile(char* fileName, int n, Student *students);
@@ -33,38 +87,91 @@ int main()
 {
     Student* pStudent;
     char* fileName = "assign10.inp";
-    string line;
+    char* outbin = "bin10.bin";
+    char* outtext = "text10.txt";
     int NofStu = readFromTextFile(fileName, &pStudent);
+    for (int i = 0 ; i < NofStu; i++) {
+        cout << pStudent[i] << endl;
+    }
+    Student* bStudent;
+    writeToBinaryFile(outbin, NofStu, pStudent);
+    int NofStu2 = readFromBinaryFile(outbin, &bStudent);
+    for (int i = 0 ; i < NofStu2; i++) {
+        cout << bStudent[i] << endl;
+    }
+    writeToTextFile(outtext,NofStu2,bStudent);
     return 0;
 }
 
 int readFromTextFile(char* fileName, Student **students)
 {
-    int ret = 0;
     Student *retStu;
     string line;
     ifstream myfile(fileName, ios::in);
+    getline(myfile, line);
+    int ret = stoi(line);
     if (myfile.is_open()) {
-        if (ret) {
-            retStu = new Student[ret];
-            int cnt = 0;
-            while (myfile.good()) {
-                getline(myfile, line);
-                string tmpname = line.substr(0,20);
-                string tmpdept = line.substr(23,20);
-                retStu[cnt].getName(tmpname);
-                retStu[cnt].getAge(stoi(line.substr(20,3)));
-                retStu[cnt].getDept(tmpdept);
-                retStu[cnt].getScore(stoi(line.substr(43,4)));
-                cnt++;
-            }
-        }
-        else{
+        retStu = new Student[ret];
+        for (int i = 0 ; i < ret; i++) {
             getline(myfile, line);
-            ret = stoi(line);
+            retStu[i].setName(line.substr(0,20));
+            retStu[i].setAge(stoi(line.substr(20,3)));
+            retStu[i].setDept(line.substr(23,20));
+            retStu[i].setScore(stof(line.substr(43,4)));
         }
     }
-    else return 0;
-    
+    else return -1;
+    *students = retStu;
+    // delete []retStu;
     return ret;
+}
+
+void writeToBinaryFile(char* fileName, int n, Student *students)
+{
+    ofstream myfile(fileName, ios::out | ios::binary);
+    if (myfile.is_open()) {
+        myfile.write((char*)(&n), sizeof(int));
+        for (int i = 0 ; i < n ; i ++) {
+            myfile.write((char*)(students+i), sizeof(Student));
+        }
+    }
+    myfile.close();
+}
+
+int readFromBinaryFile(char* fileName, Student **students)
+{
+    ifstream in(fileName,ios::in | ios::binary);
+    Student *retStub;
+    int n;
+    if(in.is_open()){
+        in.read((char*)(&n),sizeof(int));
+        retStub = new Student[n];
+        // cout <<"<out.dat> opened, \nn = "<< n << endl <<endl;
+        
+        for(int i = 0; i < n; i++){
+            in.read((char*)(retStub+i), sizeof(Student));
+            // cout << retStu[i] << endl;
+        }
+    }
+    else{
+        cout<<"can not find file"<<endl;
+        return -1;
+    }
+    in.close();
+    *students = retStub;
+    // delete []retStub;
+    return n;
+}
+
+void writeToTextFile(char* fileName, int n, Student *students)
+{
+    // cout << "Start4point" << endl;
+    ofstream myfile(fileName);
+    if (myfile.is_open()) {
+        myfile << n <<endl;
+        for (int i = 0; i < n ; i++) {
+            myfile << *(students+i) << endl;
+        }
+    }
+    myfile.close();
 }
