@@ -1,17 +1,20 @@
 //
-//  class_Assign11.cpp
+//  class_Assign12.cpp
 //  Cplusplus_PNU2018
 //
-//  Created by MJMacBook on 27/05/2018.
+//  Created by MJMacBook on 06/06/2018.
 //  Copyright © 2018 MJMacBook. All rights reserved.
 //
 
 #include <iostream>
+#include <set>
+
 using namespace std;
 
 class Shape;
 class ShapeSet {
-    Shape** shapes;
+    set<Shape*> shapes;
+    set<Shape*>::iterator iter;
     int    numShapes;
     int    maxShapes; // maximum number of shape objects
     
@@ -32,7 +35,43 @@ public:
     enum {POINT, CIRCLE, RECTANGLE, TRIANGLE};
     virtual double area()=0;
 };
+ShapeSet::ShapeSet(int n)
+:maxShapes(n), numShapes(0)
+{}
 
+ShapeSet::ShapeSet(const ShapeSet& s)
+{
+    maxShapes = s.maxShapes;
+    numShapes = s.numShapes;
+    shapes.insert(s.shapes.begin(), s.shapes.end());
+}
+
+ShapeSet ShapeSet::operator+(Shape &s)
+{
+    bool error = false;
+    try {
+        if (numShapes > maxShapes-1) {
+            throw error = true;
+        }
+        shapes.insert(&s);
+        numShapes++;
+        
+    } catch (bool ex) {
+        cout << "num은 max보다 항상 낮아야 합니다." << endl;
+        exit(1);
+    }
+    
+    return *this;
+}
+
+double ShapeSet::totalArea()
+{
+    double ret = 0.0;
+    for (iter = shapes.begin(); iter != shapes.end(); iter++) {
+        ret += (*iter)->area();
+    }
+    return ret;
+}
 class Point : public Shape{
     double x, y;
     
@@ -81,7 +120,7 @@ class Triangle : public Shape {
     
 public:
     Triangle(const Point&, const Point&, const Point&);
-//    bool isContaining(const Point&);
+    //    bool isContaining(const Point&);
     double area();
 };
 
@@ -95,43 +134,9 @@ double Triangle::area(){
 
 /* Constructor Define */
 
-ShapeSet::ShapeSet(int n)
-:maxShapes(n), numShapes(0)
-{
-    shapes = new Shape*[n];
-}
-
-ShapeSet::ShapeSet(const ShapeSet& s)
-{
-    maxShapes = s.maxShapes;
-    numShapes = s.numShapes;
-    shapes = new Shape*[s.maxShapes];
-    for (int i = 0 ; i < maxShapes; i++) {
-        shapes[i] = s.shapes[i];
-    }
-}
-
-ShapeSet ShapeSet::operator+(Shape &s)
-{
-    ShapeSet *retSet = new ShapeSet(*this);
-    retSet->shapes[retSet->numShapes] = &s;
-    retSet->numShapes++;
-    return *retSet;
-}
-
-double ShapeSet::totalArea()
-{
-    double ret = 0.0;
-    ShapeSet retSet = *this;
-    for (int i = 0 ; i < retSet.numShapes; i++) {
-        ret += retSet.shapes[i]->area();
-    }
-    return ret;
-}
-
 int main()
 {
-    ShapeSet mSet(5);
+    ShapeSet mSet(1);
     Point A(3,4);
     Point B(0,0);
     Point C(9,8);
@@ -142,7 +147,9 @@ int main()
     Rectangle nRe(B,C);
     cout << "Rectangle: " << nRe.area() << endl;
     mSet = mSet + nTr;
+    cout << mSet.totalArea() << endl;
     mSet = mSet + nCr;
+    cout << mSet.totalArea() << endl;
     mSet = mSet + nRe;
     cout << mSet.totalArea() << endl;
     
