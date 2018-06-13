@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		89EFD5E120C79494002FCD52 /* class_Assign12.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89EFD5E020C79494002FCD52 /* class_Assign12.cpp */; };
+		8977F8BA20D14EE700A37ACA /* Assign7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8977F8B920D14EE700A37ACA /* Assign7.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,10 +23,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8977F8B920D14EE700A37ACA /* Assign7.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Assign7.cpp; sourceTree = "<group>"; };
 		89DE736A2074A2CA00F494BC /* Cplusplus_PNU2018 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cplusplus_PNU2018; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DE73742074A52400F494BC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		89DE73752074A58900F494BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		89EFD5E020C79494002FCD52 /* class_Assign12.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = class_Assign12.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 		89DE736C2074A2CA00F494BC /* Cplusplus_PNU2018 */ = {
 			isa = PBXGroup;
 			children = (
-				89EFD5E020C79494002FCD52 /* class_Assign12.cpp */,
+				8977F8B920D14EE700A37ACA /* Assign7.cpp */,
 			);
 			path = Cplusplus_PNU2018;
 			sourceTree = "<group>";
@@ -123,7 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89EFD5E120C79494002FCD52 /* class_Assign12.cpp in Sources */,
+				8977F8BA20D14EE700A37ACA /* Assign7.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
